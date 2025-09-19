@@ -7,6 +7,8 @@ struct VM {
     int mem;
     int running;
 };
+// Maximum number of virtual machines
+#define MAX_VMS 16
 struct VM vms[MAX_VMS];
 int vm_count = 0;
 
@@ -52,4 +54,4 @@ void virtualization_stats() {
         printf("VM %d: %s cpu=%d mem=%d running=%d\n", i, vms[i].name, vms[i].cpu, vms[i].mem, vms[i].running);
     }
 }
-}
+

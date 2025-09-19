@@ -82,22 +82,31 @@ void kernel_main() {
 
 	// Security: user/group management
 	add_group("admin");
-	add_user("root", 0, 1);
-	add_user("guest", 0, 0);
+	add_user("root", 0, 1, "rootpw");
+	add_user("guest", 0, 0, "guestpw");
 
 	// Security: ACLs
-	set_acl(1, 0, 0x7); // resource_id=1, uid=0, permissions=read/write/execute
+	#ifndef RESOURCE_FILE
+	#define RESOURCE_FILE 1
+	#endif
+	set_acl(1, RESOURCE_FILE, 0, 0x7, 0); // resource_id=1, type=RESOURCE_FILE, uid=0, permissions=read/write/execute, parent_resource_id=0
 
 	// Security: secure boot
 	secure_boot_init();
 
 	// Security: encryption
 	char enc_out[16], dec_out[16];
-	encrypt_data("secret", enc_out, 6);
-	decrypt_data(enc_out, dec_out, 6);
+	encrypt_data("secret", enc_out, 6, ENC_AES, 1);
+	decrypt_data(enc_out, dec_out, 6, ENC_AES, 1);
 
 	// Security: sandboxing
-	sandbox_init(pid);
+	int syscalls[] = {0};
+	int syscall_count = 1;
+	int cpu_quota = 100;
+	int mem_quota = 1024;
+	int namespace_id = 0;
+	int pid = 0;
+	sandbox_init(pid, syscalls, syscall_count, cpu_quota, mem_quota, namespace_id);
 
 	// Demo: create a process
 	uint8_t* proc_mem = alloc_mem(4096);

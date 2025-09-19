@@ -54,6 +54,4 @@ CaneOS is a custom operating system project. This repository contains the source
 
 To build CaneOS, you will need a cross-compiler toolchain and knowledge of low-level programming (C, assembly).
 
-## Getting Started
-
 Start by editing the placeholder files in each directory.

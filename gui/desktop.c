@@ -5,6 +5,8 @@ struct Icon {
     char name[64];
     int x, y;
 };
+// Maximum number of desktop icons
+#define MAX_ICONS 64
 struct Icon icons[MAX_ICONS];
 int icon_count = 0;
 char wallpaper[128] = "default.jpg";
